@@ -1,0 +1,74 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<form action="{% url 'procesarEdicionCampista' %}" method="post" class="form-control justify-content text-center "> 
+    <h3>Actualizar Campista:</h3>
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ campista.id }}">  {# Campo oculto con el ID #}
+    <br>
+    <label for=""><b>Nombre:</b></label>
+    <input type="text" name="txt_nombre" 
+        value="{{campista.nombre}}"
+        id="txt_nombre">
+    <br>
+    <label for=""><b>Correo:</b></label>
+    <input type="email" name="txt_correo" 
+        value="{{campista.correo}}"
+        id="txt_correo">
+    <br>
+
+    <br>
+    <label for=""><b>Telefono:</b></label>
+    <input type="text" name="txt_telefono" 
+        value="{{campista.telefono}}"
+        id="txt_telefono">
+    <br>
+
+    <label for=""><b>Direccion:</b></label>
+    <textarea name="txt_direccion" 
+        id="txt_direccion">{{campista.direccion}}</textarea> 
+    <br>
+
+    <br><br>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="/" class="btn btn-danger">Cancelar</a>
+</form>
+
+<script>
+    $("#frm_nuevo_campista").validate({
+        rules:{
+            "txt_nombre":{
+                required:true,
+                letras:true
+            },
+
+            "txt_correo":{
+                required:true,
+            },
+
+            "txt_telefono":{
+                required:true,
+                numbersonly:true,
+            },
+            
+        },
+        messages:{
+  
+            "txt_nombre":{
+                required:"Por favor ingrese su nombre",
+                letras:"No ponga numeros"
+
+            },
+
+            "txt_correo":{
+                required:"Por favor ingrese su correo",
+            },
+
+            "txt_telefono":{
+                required:"Por favor ingrese su correo",
+                numbersonly: "No ingrese letras"
+            },
+    }
+});
+</script>
+
+{% endblock%}

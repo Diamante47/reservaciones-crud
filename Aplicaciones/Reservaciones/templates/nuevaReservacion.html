@@ -1,0 +1,107 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<center><h1>Formulario para ingresar reservacionesciones</h1></center>
+<br>
+<div class="container-fluid ">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="frm_nueva_reservacion" action="{% url 'guardarReservacion' %}" method="post">
+                {% csrf_token %}
+                <label for=""><b>Campista:</b></label>
+                <select name="campista" class="form-control" id="campista" required>
+                    
+                    {% for reservacionCampista in campistareservacion %}
+                        <option value="{{ reservacionCampista.id }}">{{ reservacionCampista.nombre }}</option>
+                    {% endfor %}
+                </select>   
+                <br><br>
+                <label for="">Fecha de inicio<b>:</b></label>
+                <input type="date" name="fecha_inicio" class="form-control" id="fecha_inicio" placeholder="fecha_inicio" required>
+                <br><br>
+                <label for="">Fecha de fin<b>:</b></label>
+                <input type="date" name="fecha_fin" class="form-control" id="fecha_fin" placeholder="fecha_fin" required>
+                <br><br>
+
+                <label for="">Tipo de alojamiento<b>:</b></label>
+                <select name="tipo_de_alojamiento" class="form-control" id="tipo_de_alojamiento" required>
+                    <option value="Tienda">Tienda</option>
+                    <option value="Tabaña">Cabaña</option>
+                    <option value="Tarabana">Carabana</option>
+                </select>
+                <br><br>
+                <label for="">Numero de personas<b>:</b></label>
+                <input type="text" name="numero_de_personas" class="form-control" id="numero_de_personas" placeholder="numero_de_personas" required>
+                <br><br>
+
+                <label for="">Estado de la reserva<b>:</b></label>
+                <select name="estado_de_la_reserva" class="form-control" id="estado_de_la_reserva" required>
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="Cancelada">Cancelada</option>
+                    </select>
+                <br><br>
+                <label for=""><b>Observacion</b></label>
+                <input type="text" name="observacion" class="form-control" id="observacion" placeholder="observacion" required>
+                <br>
+
+                <center>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                   
+                </center>
+                
+
+            </form>
+
+        </div>
+
+    </div>
+</div>
+<br><br>
+
+<script>
+    $("#frm_nueva_reservacion").validate({
+        rules:{
+
+            "fecha_inicio":{
+                required:true,
+            },
+            
+            "fecha_fin":{
+                required:true,
+            },
+
+            "numero_de_personas":{
+                required:true,
+                numbersonly:true,
+            },
+
+
+            "observacion":{
+                required:true,
+                letras:true,
+            },
+        },
+        messages:{
+
+
+            "fecha_inicio":{
+                required:"Ingrese la fecha de inicio",
+            },
+
+            "fecha_fin":{
+                required:"Ingrese la fecha de fin",
+            },
+
+            "numero_de_personas":{
+                required:"Ingrese la cantidad de personas",
+                numbersonly: "No ingrese letras",
+            }
+
+         
+        }
+    });
+</script>
+
+
+{% endblock  %}

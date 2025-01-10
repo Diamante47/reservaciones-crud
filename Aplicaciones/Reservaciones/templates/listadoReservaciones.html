@@ -1,0 +1,55 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+
+    <div class="card">
+        <div class="card-title text-center">
+            <br><br>
+            <h1><b>LISTA DE RESERVACIONES</b></h1>
+        </div>
+    </div>
+    <br>
+    <div >
+        <a href="{% url 'nuevaReservacion' %}" class="btn custom-button">Añadir reservacion nueva</a>
+    </div>
+    <br>
+    <table class="table table-bordered table-striped table-hover justify-content text-center" id="tbl-reservacion">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Correo:</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de fin</th>
+                <th>Tipo de alojamiento</th>
+                <th>Número de personas</th>
+                <th>Estado de la reserva</th>
+                <th>Observacion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservacionCampista in reservacionesBdd %}  
+            <tr>
+                <td>{{ reservacionCampista.id }}</td>
+                <td>{{ reservacionCampista.campista.nombre }}</td>
+                <td>{{ reservacionCampista.campista.correo }}</td>s
+                <td>{{ reservacionCampista.fecha_inicio }}</td>
+                <td>{{ reservacionCampista.fecha_fin }}</td>
+                <td>{{ reservacionCampista.tipo_de_alojamiento }}</td>
+                <td>{{ reservacionCampista.numero_de_personas }}</td>
+                <td>{{ reservacionCampista.estado_de_la_reserva }}</td>     
+                <td>{{ reservacionCampista.observacion }}</td>  
+                
+                <td>
+                    <a href="{% url 'editarReservacion' id=reservacionCampista.id %}" class="btn btn-primary">Editar</a> 
+                    <a href="{% url 'eliminarReservacion' reservacionCampista.id %}" onclick="return confirm('¿Estás seguro que deseas eliminar?');" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock  %}
+
+

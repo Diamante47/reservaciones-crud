@@ -1,0 +1,93 @@
+{% extends "./plantilla.html" %}
+{% block contenido %}
+<form action="{% url 'procesarEdicionReservacion' %}" method="post" class="form-control justify-content text-center ">
+    <h3>Actualizar Reservación:</h3>
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ reservacion.id }}">  {# Campo oculto con el ID #}
+    <br>
+    <label for=""><b>Campista:</b></label>
+    <select name="campista" class="form-control" id="campista" required>
+        {% for campista in campistas %}
+            <option value="{{ campista.id }}" {% if campista == reservacion.campista %}selected{% endif %}>{{ campista.nombre }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
+    <label for="">Fecha de inicio<b>:</b></label>
+    <input type="date" name="fecha_inicio" class="form-control" id="fecha_inicio" value="{{ reservacion.fecha_inicio|date:'Y-m-d' }}" required>
+    <br><br>
+    <label for="">Fecha de fin<b>:</b></label>
+    <input type="date" name="fecha_fin" class="form-control" id="fecha_fin" value="{{ reservacion.fecha_fin|date:'Y-m-d' }}" required>
+    <br><br>
+
+    <label for="">Tipo de alojamiento<b>:</b></label>
+    <select name="tipo_de_alojamiento" class="form-control" id="tipo_de_alojamiento" required>
+        <option value="Tienda" {% if reservacion.tipo_de_alojamiento == 'Tienda' %}selected{% endif %}>Tienda</option>
+        <option value="Cabaña" {% if reservacion.tipo_de_alojamiento == 'Cabaña' %}selected{% endif %}>Cabaña</option>
+        <option value="Carabana" {% if reservacion.tipo_de_alojamiento == 'Carabana' %}selected{% endif %}>Carabana</option>
+    </select>
+    <br><br>
+    <label for="">Numero de personas<b>:</b></label>
+    <input type="text" name="numero_de_personas" class="form-control" id="numero_de_personas" value="{{ reservacion.numero_de_personas }}" required>
+    <br><br>
+
+    <label for="">Estado de la reserva<b>:</b></label>
+    <select name="estado_de_la_reserva" class="form-control" id="estado_de_la_reserva" required>
+        <option value="Pendiente" {% if reservacion.estado_de_la_reserva == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+        <option value="Confirmada" {% if reservacion.estado_de_la_reserva == 'Confirmada' %}selected{% endif %}>Confirmada</option>
+        <option value="Cancelada" {% if reservacion.estado_de_la_reserva == 'Cancelada' %}selected{% endif %}>Cancelada</option>
+    </select>
+    <br><br>
+    <label for=""><b>Observacion</b></label>
+    <input type="text" name="observacion" class="form-control" id="observacion" value="{{ reservacion.observacion }}" required>
+    <br>
+
+    <br><br>
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'listadoReservaciones' %}" class="btn btn-danger">Cancelar</a> 
+</form>
+
+<script>
+    $("#frm_nueva_reservacion").validate({
+        rules:{
+
+            "fecha_inicio":{
+                required:true,
+            },
+            
+            "fecha_fin":{
+                required:true,
+            },
+
+            "numero_de_personas":{
+                required:true,
+                numbersonly:true
+            }
+
+
+            "observacion":{
+                required:true,
+                letras:true,
+            },
+        },
+        messages:{
+
+
+            "fecha_inicio":{
+                required:"Ingrese la fecha de inicio",
+            },
+
+            "fecha_fin":{
+                required:"Ingrese la fecha de fin",
+            },
+
+            "numero_de_personas":{
+                required:"Ingrese la cantidad de personas"
+                numbersonly: "No ingrese letras"
+            }
+
+         
+        }
+    });
+</script>
+
+{% endblock %}
